@@ -63,53 +63,49 @@ export default async function getTitle(id) {
     genre: props.aboveTheFoldData.genres.genres.map((e) => e.id),
     releaseDetailed: {
   date: (() => {
-    const rd = props.aboveTheFoldData.releaseDate;
-    if (!rd) return null;
-
-    // Parse components and validate
-    const year = parseInt(rd.year);
-    const month = parseInt(rd.month);
-    const day = parseInt(rd.day);
-    
-    // Validate all components exist
-    if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
-    
-    // Validate month range (1-12)
-    if (month < 1 || month > 12) return null;
-    
-    // Validate day range (1-31, will validate exact days per month later)
-    if (day < 1 || day > 31) return null;
-    
     try {
-      // Create date in UTC (month is 0-indexed)
+      const rd = props.aboveTheFoldData?.releaseDate;
+      if (!rd) return null;
+
+      const year = parseInt(rd.year);
+      const month = parseInt(rd.month);
+      const day = parseInt(rd.day);
+
+      // Validate components
+      if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
+      if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+
+      // Create UTC date (month is 0-indexed)
       const date = new Date(Date.UTC(year, month - 1, day));
       
-      // Final validation - check if created date matches input
-      const isValid = 
-        date.getUTCFullYear() === year &&
-        date.getUTCMonth() === month - 1 &&
-        date.getUTCDate() === day;
+      // Verify date components match
+      const isValid = date.getUTCFullYear() === year &&
+                     date.getUTCMonth() === month - 1 &&
+                     date.getUTCDate() === day;
       
       return isValid ? date.toISOString() : null;
     } catch {
       return null;
     }
-  })()
+  })(),
+  
+  // Individual date components with fallbacks
+  day: props.aboveTheFoldData?.releaseDate?.day || null,
+  month: props.aboveTheFoldData?.releaseDate?.month || null,
+  year: props.aboveTheFoldData?.releaseDate?.year || null,
+  
+  // Release location with safe access
+  releaseLocation: {
+    country: props.mainColumnData?.releaseDate?.country?.text || null,
+    cca2: props.mainColumnData?.releaseDate?.country?.id || null,
+  },
+  
+  // Origin locations with array protection
+  originLocations: (props.mainColumnData?.countriesOfOrigin?.countries || []).map(e => ({
+    country: e?.text || null,  // Fallback if text missing
+    cca2: e?.id || null,       // Fallback if id missing
+  })),
 },
-      day: props.aboveTheFoldData.releaseDate.day,
-      month: props.aboveTheFoldData.releaseDate.month,
-      year: props.aboveTheFoldData.releaseDate?.year ?? props.aboveTheFoldData.releaseYear?.year,
-      releaseLocation: {
-        country: props.mainColumnData.releaseDate?.country?.text,
-        cca2: props.mainColumnData.releaseDate?.country?.id,
-      },
-      originLocations: props.mainColumnData.countriesOfOrigin?.countries?.map(
-        (e) => ({
-          country: e.text,
-          cca2: e.id,
-        })
-      ),
-    },
     year: props.aboveTheFoldData.releaseDate?.year,
     spokenLanguages: props.mainColumnData.spokenLanguages.spokenLanguages.map(
       (e) => ({
