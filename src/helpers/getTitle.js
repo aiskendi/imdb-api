@@ -47,7 +47,7 @@ export default async function getTitle(id) {
     images: props.mainColumnData.titleMainImages.edges
       .filter((e) => e.__typename === "ImageEdge")
       .map((e) => e.node.url),
-    plot: props.aboveTheFoldData.plot.plotText.plainText,
+    plot: props.aboveTheFoldData.plot?.plotText?.plainText ?? "N/A",
     runtime:
       props.aboveTheFoldData.runtime?.displayableProperty?.value?.plainText ??
       "",
