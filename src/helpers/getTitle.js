@@ -61,23 +61,41 @@ export default async function getTitle(id) {
       nominations: props.mainColumnData.nominations?.total ?? 0,
     },
     genre: props.aboveTheFoldData.genres.genres.map((e) => e.id),
-    releaseDetailed: (() => {
-  const rd = props.aboveTheFoldData.releaseDate;
-  if (!rd) return null;
+    releaseDetailed: {
+  date: (() => {
+    const rd = props.aboveTheFoldData.releaseDate;
+    if (!rd) return null;
 
-  const year = parseInt(rd.year);
-  const month = parseInt(rd.month);
-  const day = parseInt(rd.day);
-
-  // Validate all date components exist and are valid numbers
-  if ([year, month, day].some(Number.isNaN)) return null;
-  
-  // Create date in UTC to avoid timezone issues (month is 0-indexed)
-  const date = new Date(Date.UTC(year, month - 1, day));
-  
-  // Final validation for invalid dates (like February 30)
-  return isNaN(date.getTime()) ? null : date.toISOString();
-})(),
+    // Parse components and validate
+    const year = parseInt(rd.year);
+    const month = parseInt(rd.month);
+    const day = parseInt(rd.day);
+    
+    // Validate all components exist
+    if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
+    
+    // Validate month range (1-12)
+    if (month < 1 || month > 12) return null;
+    
+    // Validate day range (1-31, will validate exact days per month later)
+    if (day < 1 || day > 31) return null;
+    
+    try {
+      // Create date in UTC (month is 0-indexed)
+      const date = new Date(Date.UTC(year, month - 1, day));
+      
+      // Final validation - check if created date matches input
+      const isValid = 
+        date.getUTCFullYear() === year &&
+        date.getUTCMonth() === month - 1 &&
+        date.getUTCDate() === day;
+      
+      return isValid ? date.toISOString() : null;
+    } catch {
+      return null;
+    }
+  })()
+},
       day: props.aboveTheFoldData.releaseDate.day,
       month: props.aboveTheFoldData.releaseDate.month,
       year: props.aboveTheFoldData.releaseDate?.year ?? props.aboveTheFoldData.releaseYear?.year,
