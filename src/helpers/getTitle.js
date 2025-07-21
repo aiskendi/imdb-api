@@ -63,9 +63,9 @@ export default async function getTitle(id) {
     genre: props.aboveTheFoldData.genres.genres.map((e) => e.id),
     releaseDetailed: {
       date: new Date(
-        props.aboveTheFoldData.releaseDate.year,
-        props.aboveTheFoldData.releaseDate.month - 1,
-        props.aboveTheFoldData.releaseDate.day
+        props.aboveTheFoldData.releaseDate?.year,
+        props.aboveTheFoldData.releaseDate?.month - 1,
+        props.aboveTheFoldData.releaseDate?.day
       ).toISOString(),
       day: props.aboveTheFoldData.releaseDate.day,
       month: props.aboveTheFoldData.releaseDate.month,
@@ -81,7 +81,7 @@ export default async function getTitle(id) {
         })
       ),
     },
-    year: props.aboveTheFoldData.releaseDate.year,
+    year: props.aboveTheFoldData.releaseDate?.year,
     spokenLanguages: props.mainColumnData.spokenLanguages.spokenLanguages.map(
       (e) => ({
         language: e.text,
