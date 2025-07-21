@@ -63,7 +63,7 @@ export default async function getTitle(id) {
     genre: props.aboveTheFoldData.genres.genres.map((e) => e.id),
     releaseDetailed: {
       date: new Date(
-        props.aboveTheFoldData.releaseDate?.year,
+        props.aboveTheFoldData.releaseDate?.year ?? "",
         props.aboveTheFoldData.releaseDate?.month - 1,
         props.aboveTheFoldData.releaseDate?.day
       ).toISOString(),
