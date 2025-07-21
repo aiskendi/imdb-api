@@ -61,15 +61,26 @@ export default async function getTitle(id) {
       nominations: props.mainColumnData.nominations?.total ?? 0,
     },
     genre: props.aboveTheFoldData.genres.genres.map((e) => e.id),
-    releaseDetailed: {
-      date: new Date(
-        props.aboveTheFoldData.releaseDate?.year ?? props.aboveTheFoldData.releaseYear.year,
-        props.aboveTheFoldData.releaseDate?.month - 1,
-        props.aboveTheFoldData.releaseDate?.day
-      ).toISOString(),
+    releaseDetailed: (() => {
+  const rd = props.aboveTheFoldData.releaseDate;
+  if (!rd) return null;
+
+  const year = parseInt(rd.year);
+  const month = parseInt(rd.month);
+  const day = parseInt(rd.day);
+
+  // Validate all date components exist and are valid numbers
+  if ([year, month, day].some(Number.isNaN)) return null;
+  
+  // Create date in UTC to avoid timezone issues (month is 0-indexed)
+  const date = new Date(Date.UTC(year, month - 1, day));
+  
+  // Final validation for invalid dates (like February 30)
+  return isNaN(date.getTime()) ? null : date.toISOString();
+})(),
       day: props.aboveTheFoldData.releaseDate.day,
       month: props.aboveTheFoldData.releaseDate.month,
-      year: props.aboveTheFoldData.releaseDate?.year,
+      year: props.aboveTheFoldData.releaseDate?.year ?? props.aboveTheFoldData.releaseYear?.year,
       releaseLocation: {
         country: props.mainColumnData.releaseDate?.country?.text,
         cca2: props.mainColumnData.releaseDate?.country?.id,
