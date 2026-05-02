@@ -23,6 +23,7 @@ async function fetchFromGraphQL(id) {
         }
         productionStatus {
           currentProductionStage { id text }
+        }
         countriesOfOrigin {
           countries { id text }
         }
