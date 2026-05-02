@@ -65,3 +65,6 @@ export async function getSeason({ id, seasonId }) {
     })),
   };
 }
+
+export default seriesFetcher;
+export { seriesFetcher, getSeason };
