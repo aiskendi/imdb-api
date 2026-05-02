@@ -1,6 +1,4 @@
 name = "imdb-api"
 main = "src/index.js"
 compatibility_date = "2023-07-01"
-
-[build]
-command = ""
+node_compat = true
