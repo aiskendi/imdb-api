@@ -12,7 +12,7 @@ async function fetchFromGraphQL(id) {
         runtime { seconds displayableProperty { value { plainText } } }
         certificate { rating }
         ratingsSummary { aggregateRating voteCount }
-        plot { plotText { plainText } language { id }
+        plot { plotText { plainText } language { id } }
         primaryImage { url caption { plainText } }
         genres { genres { id text } }
         principalCredits {
