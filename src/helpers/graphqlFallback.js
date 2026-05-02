@@ -215,7 +215,7 @@ async function fetchFromSuggestionAPI(id) {
       },
       spokenLanguages: [],
       filmingLocations: [],
-      actors: (item.s || ").split(", ").filter(Boolean),
+      actors: (item.s || "").split(", ").filter(Boolean),
       actors_v2: [],
       creators: [],
       creators_v2: [],
