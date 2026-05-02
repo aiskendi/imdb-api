@@ -1,4 +1,4 @@
-name = "imdb-api"
+name = "imdb-scr1"
 main = "src/index.js"
 compatibility_date = "2023-07-01"
-node_compat = true
+compatibility_flags = ["nodejs_compat"]
