@@ -1,4 +1,6 @@
 name = "imdb-api"
+main = "src/index.js"
+compatibility_date = "2023-07-01"
 
-workers_dev = true
-compatibility_date = "2023-02-28"
+[build]
+command = ""
