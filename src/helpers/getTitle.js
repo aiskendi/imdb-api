@@ -1,6 +1,6 @@
 import apiRequestRawHtml from "./apiRequestRawHtml";
 import DomParser from "dom-parser";
-import seriesFetcher from "./seriesFetcher";
+import { seriesFetcher, getSeason } from "./seriesFetcher.js";
 
 export default async function getTitle(id) {
   const parser = new DomParser();
