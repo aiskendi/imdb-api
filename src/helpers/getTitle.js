@@ -2,7 +2,7 @@ import DomParser from "dom-parser";
 import {
   apiRequestRawHtmlWithRetry,
 } from "./apiRequestRawHtml.js";
-import { seriesFetcher, getSeason } from "./seriesFetcher.js";
+import seriesFetcher, { getSeason } from "./seriesFetcher.js";
 import {
   fetchFromGraphQL,
   buildResultFromGraphQL,
